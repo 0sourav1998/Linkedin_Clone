@@ -34,7 +34,7 @@ export const signup = async (req, res) => {
       password: hashedPassword,
     });
     const profileUrl =
-      process.env.PROFILE_URL + "/profile/" + createUser.username;
+      process.env.CLIENT_URL + "/profile/" + createUser.username;
     await sendMail(createUser.email, createUser.name, profileUrl);
     return res.status(201).json({
       success: true,
