@@ -3,12 +3,14 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { cloudinaryConfig } from "./Cloudinary/config.js";
 dotenv.config();
-import userRouter from "./routes/User.js";
-import postRouter from "./routes/Post.js";
-import notificationRouter from "./routes/Notification.js";
 import dbConnect from "./Database/db.js";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
+
+import userRouter from "./routes/User.js";
+import postRouter from "./routes/Post.js";
+import notificationRouter from "./routes/Notification.js";
+import connectionRouter from "./routes/Connection"
 
 const app = express();
 
@@ -26,6 +28,7 @@ const PORT = process.env.PORT || 4000;
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/post", postRouter);
 app.use("/api/v1/notification", notificationRouter);
+app.use("/api/v1/connection",connectionRouter)
 
 dbConnect();
 cloudinaryConfig().then(() => console.log("Cloudinary Connected Successfully"));
