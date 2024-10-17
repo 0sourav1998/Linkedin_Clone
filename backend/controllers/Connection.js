@@ -1,5 +1,5 @@
 import Connection from "../models/Connection.js";
-import Notification from "../models/Notification";
+import Notification from "../models/Notification.js";
 import User from "../models/User.js";
 import { acceptRequestMail } from "../utils/sendMail.js";
 

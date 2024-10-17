@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
-import {isAuthenticated} from "../middlewares/isAuthenticated"
-import { acceptConnectionRequest, getAllConnections, getConnectionStatus, getUserConnections, rejectConnectionRequest, removeConnection, sendConnectionRequest } from "../controllers/Connection";
+import {isAuthenticated} from "../middlewares/isAuthenticated.js"
+import { acceptConnectionRequest, getAllConnections, getConnectionStatus, getUserConnections, rejectConnectionRequest, removeConnection, sendConnectionRequest } from "../controllers/Connection.js";
 
 router.post("/request/:id",isAuthenticated,sendConnectionRequest);
 router.put("/accept/:id",isAuthenticated,acceptConnectionRequest);
