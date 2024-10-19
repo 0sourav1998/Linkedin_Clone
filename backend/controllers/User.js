@@ -129,7 +129,7 @@ export const getCurrentUser = async (req, res) => {
 
 export const suggestedUser = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.user;
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({

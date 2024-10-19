@@ -21,6 +21,6 @@ export const isAuthenticated = async (req, res, next) => {
     req.user = decoded._id;
     next();
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 };

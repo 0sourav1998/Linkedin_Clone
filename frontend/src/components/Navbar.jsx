@@ -1,20 +1,21 @@
 import React, { useEffect } from "react";
 import { getNotifications } from "../services/operations/Notification";
 import { setNotification } from "../redux/slice/notification";
-import { setConnection } from "../redux/slice/connections";
-import { getConnections } from "../services/operations/Connections";
 import { useDispatch, useSelector } from "react-redux";
 import logo from "../../public/small-logo.png";
 import { Home, Users, Bell, LogOut } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../services/operations/Auth";
+import { getPendingReq } from "../services/operations/Connections";
+import { setPendingReq } from "../redux/slice/connections";
 
 export const Navbar = () => {
-  const { token } = useSelector((state) => state.auth);
-  const { connection } = useSelector((state) => state.connection);
+  const { token, user } = useSelector((state) => state.auth);
+  const { pendingReq } = useSelector((state) => state.connection);
   const { notification } = useSelector((state) => state.notification);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const handleLogout = () => {
     try {
       dispatch(logout(navigate));
@@ -22,15 +23,17 @@ export const Navbar = () => {
       console.log(error.message);
     }
   };
-  const fetchConnection = async () => {
+
+  const fetchPendingConnection = async () => {
     try {
-      const response = await getConnections(token);
+      const response = await getPendingReq(token);
       console.log("res", response);
-      dispatch(setConnection(response));
+      dispatch(setPendingReq(response));
     } catch (error) {
       console.log(error.message);
     }
   };
+
   const fetchNotification = async () => {
     try {
       const response = await getNotifications(token);
@@ -39,12 +42,18 @@ export const Navbar = () => {
       console.log(error.message);
     }
   };
+
+  const unreadNotification = notification?.filter(
+    (notif) => !notif.read
+  ).length;
+  const unreadConnection = pendingReq?.length;
+
   useEffect(() => {
-    fetchConnection();
-    fetchNotification();
-  }, [token]);
-  const unreadNotification = ["1","2","3"]
-  const unreadConnection = connection?.length;
+    if (token) {
+      fetchPendingConnection();
+      fetchNotification();
+    }
+  }, [token, user]);
 
   return (
     <div className="bg-white p-2 border-b">
@@ -60,7 +69,7 @@ export const Navbar = () => {
           <Link to={"/network"} className="flex flex-col items-center relative">
             <Users className="hover:text-blue-500 transition-all duration-300 cursor-pointer" />
             <span>My Network</span>
-            {unreadConnection && (
+            {unreadConnection !== 0 && (
               <span className="absolute right-5 -top-1 size-4 rounded-full bg-blue-500 text-white text-xs flex items-center justify-center">
                 {unreadConnection}
               </span>
@@ -69,9 +78,9 @@ export const Navbar = () => {
           <div className="flex flex-col items-center relative">
             <Bell className="hover:text-blue-500 transition-all duration-300 cursor-pointer" />
             <span>Notification</span>
-            {unreadNotification.length !== 0 && (
+            {unreadNotification !== 0 && (
               <span className="absolute right-5 -top-1 size-4 rounded-full bg-blue-500 text-white text-xs flex items-center justify-center">
-                {unreadNotification?.length}
+                {unreadNotification}
               </span>
             )}
           </div>

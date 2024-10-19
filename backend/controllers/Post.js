@@ -8,7 +8,7 @@ export const getFeeds = async (req, res) => {
   try {
     const id = req.user;
     const user = await User.findById(id);
-    const posts = await Post.find({ author: { $in: user.connections } })
+    const posts = await Post.find({})
       .populate("author", "-password")
       .populate("comments.user", "-password")
       .sort({ createdAt: -1 });
@@ -18,6 +18,8 @@ export const getFeeds = async (req, res) => {
       posts,
     });
   } catch (error) {
+    console.log(error.message);
+
     return res.status(400).json({
       success: false,
       message: "Something Went Wrong While Fetching Feeds",
@@ -29,9 +31,9 @@ export const createPost = async (req, res) => {
   try {
     const user = req.user;
     const { content } = req.body;
-    const { image } = req.files;
     let imageUrl;
-    if (image) {
+    if (req.files) {
+      const { image } = req.files;
       const response = await sendFileToCloudinary(
         image,
         process.env.CLOUD_FOLDER
@@ -43,6 +45,12 @@ export const createPost = async (req, res) => {
       content,
       image: imageUrl || null,
     });
+
+    await newPost.populate([
+      { path: "author", select: "-password" },
+      { path: "comments.user", select: "-password" },
+    ]);
+
     return res.status(201).json({
       success: true,
       message: "Post Created Successfully",
@@ -123,6 +131,7 @@ export const createComment = async (req, res) => {
     const postId = req.params.id;
     const userId = req.user;
     const { content } = req.body;
+    console.log("first");
     if (!postId || !content) {
       return res.status(400).json({
         success: false,
@@ -132,12 +141,15 @@ export const createComment = async (req, res) => {
     const user = await User.findById(userId);
     const post = await Post.findByIdAndUpdate(
       postId,
-      { $push: { comments: { author: userId, content: content } } },
+      { $push: { comments: { user: userId, content: content } } },
       { new: true }
-    ).populate("-password");
-    if (userId.toString() !== post.author.toString()) {
+    )
+      .populate("author", "-password")
+      .populate("comments.user", "-password")
+      .sort({ createdAt: -1 });
+    if (userId.toString() !== post.author._id.toString()) {
       await Notification.create({
-        recipient: post.author,
+        receiver: post.author,
         type: "Comment",
         relatedUser: userId,
         relatedPost: postId,
@@ -195,7 +207,7 @@ export const likePost = async (req, res) => {
       );
       if (post.author.toString() !== userId.toString()) {
         await Notification.create({
-          recipient: post.author,
+          receiver: post.author,
           type: "Like",
           relatedUser: userId,
           relatedPost: postId,

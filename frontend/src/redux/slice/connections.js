@@ -1,18 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  connections: []
+  allConnections: [],
+  pendingReq: [],
 };
 
 const connectionSlice = createSlice({
   name: "connection",
   initialState,
   reducers: {
-    setConnection: (state, action) => {
-      state.connections = action.payload;
-    }
+    setAllConnection: (state, action) => {
+      state.allConnections = action.payload;
+    },
+    setPendingReq: (state, action) => {
+      state.pendingReq = action.payload;
+    },
   },
 });
 
-export const { setConnection } = connectionSlice.actions;
+export const { setAllConnection, setPendingReq } = connectionSlice.actions;
 export default connectionSlice.reducer;

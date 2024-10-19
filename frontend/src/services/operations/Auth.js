@@ -1,9 +1,9 @@
 import { authEndpoints } from "../apis";
 import toast from "react-hot-toast";
 import { apiConnector } from "../apiConnector";
-import { setToken, setUser } from "../../redux/slice/auth.js";
+import { setSuggestedUser, setToken, setUser } from "../../redux/slice/auth.js";
 
-const { SIGNUP, LOGIN } = authEndpoints;
+const { SIGNUP, LOGIN , SUGGESTED_USER } = authEndpoints;
 
 export const signup = async (body, navigate) => {
   try {
@@ -48,3 +48,20 @@ export const logout = (navigate) => {
     }
   };
 };
+
+
+export const suggestedUser =(token)=>{
+  return async function (dispatch){
+    try {
+      const response = await apiConnector("GET",SUGGESTED_USER,null,{
+        Authorization : `Bearer ${token}`
+      });
+      console.log(response)
+      if(response?.data?.success){
+        dispatch(setSuggestedUser(response?.data?.otherUser));
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}

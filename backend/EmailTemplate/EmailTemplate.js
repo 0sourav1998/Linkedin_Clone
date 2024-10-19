@@ -35,7 +35,7 @@ export function createWelcomeEmailTemplate(name, profileUrl) {
   `;
 }
 
-export const createConnectionAcceptedEmailTemplate = (senderName, recipientName, profileUrl) => `
+export const createConnectionAcceptedEmailTemplate = (senderName, receiverName, profileUrl) => `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,17 +50,17 @@ export const createConnectionAcceptedEmailTemplate = (senderName, recipientName,
   </div>
   <div style="background-color: #ffffff; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
     <p style="font-size: 18px; color: #0077B5;"><strong>Hello ${senderName},</strong></p>
-    <p>Great news! <strong>${recipientName}</strong> has accepted your connection request on UnLinked.</p>
+    <p>Great news! <strong>${receiverName}</strong> has accepted your connection request on UnLinked.</p>
     <div style="background-color: #f3f6f8; padding: 20px; border-radius: 8px; margin: 20px 0;">
       <p style="font-size: 16px; margin: 0;"><strong>What's next?</strong></p>
       <ul style="padding-left: 20px;">
-        <li>Check out ${recipientName}'s full profile</li>
+        <li>Check out ${receiverName}'s full profile</li>
         <li>Send a message to start a conversation</li>
         <li>Explore mutual connections and interests</li>
       </ul>
     </div>
     <div style="text-align: center; margin: 30px 0;">
-      <a href="${profileUrl}" style="background-color: #0077B5; color: white; padding: 14px 28px; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 16px; transition: background-color 0.3s;">View ${recipientName}'s Profile</a>
+      <a href="${profileUrl}" style="background-color: #0077B5; color: white; padding: 14px 28px; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 16px; transition: background-color 0.3s;">View ${receiverName}'s Profile</a>
     </div>
     <p>Expanding your professional network opens up new opportunities. Keep connecting!</p>
     <p>Best regards,<br>The UnLinked Team</p>
@@ -69,7 +69,7 @@ export const createConnectionAcceptedEmailTemplate = (senderName, recipientName,
 </html>
 `;
 
-export const createCommentNotificationEmailTemplate = (recipientName, commenterName, postUrl, commentContent) => `
+export const createCommentNotificationEmailTemplate = (receiverName, commenterName, postUrl, commentContent) => `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -83,7 +83,7 @@ export const createCommentNotificationEmailTemplate = (recipientName, commenterN
     <h1 style="color: white; margin: 0; font-size: 28px;">New Comment on Your Post</h1>
   </div>
   <div style="background-color: #ffffff; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-    <p style="font-size: 18px; color: #0077B5;"><strong>Hello ${recipientName},</strong></p>
+    <p style="font-size: 18px; color: #0077B5;"><strong>Hello ${receiverName},</strong></p>
     <p>${commenterName} has commented on your post:</p>
     <div style="background-color: #f3f6f8; padding: 20px; border-radius: 8px; margin: 20px 0;">
       <p style="font-style: italic; margin: 0;">"${commentContent}"</p>

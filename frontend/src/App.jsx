@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <div className="flex-grow flex justify-center items-center">
+      <div className="flex-grow flex justify-center items-center mt-6">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />

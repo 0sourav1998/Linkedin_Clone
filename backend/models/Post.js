@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const postSchema = new mongoose.Schema({
   author: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "USer",
+    ref: "User",
     required: true,
   },
   content: { type: String },
@@ -13,7 +13,8 @@ const postSchema = new mongoose.Schema({
     content : String ,
     user : {
         type : mongoose.Schema.Types.ObjectId,
-        ref:"User"
+        ref:"User" ,
+        required : true
     },
     createdAt : {
         type : Date,

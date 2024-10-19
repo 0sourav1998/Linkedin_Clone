@@ -3,7 +3,7 @@ import Notification from "../models/Notification.js";
 export const getAllNotifications = async (req, res) => {
   try {
     const userId = req.user;
-    const notification = await Notification.find({ recipient: userId })
+    const notification = await Notification.find({ receiver: userId })
       .populate("relatedUser", "name username profilePicture")
       .populate("relatedPost", "content image");
     return res.status(200).json({
@@ -25,7 +25,7 @@ export const markNotificationAsRead = async (req, res) => {
     const notificationId = req.params.id;
     const userId = req.user;
     const updatedNotification = await Notification.findOneAndUpdate(
-      { _id: notificationId, recipient: userId },
+      { _id: notificationId, receiver: userId },
       { read: true },
       {new : true}
     );
@@ -48,7 +48,7 @@ export const deleteNotification = async (req, res) => {
     const notificationId = req.params.id;
     const userId = req.user;
     const deletedNotification = await Notification.findOneAndDelete(
-      { _id: notificationId, recipient: userId }
+      { _id: notificationId, receiver: userId }
     );
     return res.status(200).json({
       success: true,

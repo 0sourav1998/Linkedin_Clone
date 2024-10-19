@@ -5,17 +5,17 @@ import { acceptRequestMail } from "../utils/sendMail.js";
 
 export const sendConnectionRequest = async (req, res) => {
   try {
-    const senderId = req.params.id;
+    const receivedId = req.params.id;
     const userId = req.user;
-    if (senderId.toString() === userId.toString()) {
+    if (receivedId.toString() === userId.toString()) {
       return res.status(400).json({
         success: false,
         message: "You Cannot send Request To Yourself",
       });
     }
     const existingRequest = await Connection.findOne({
-      sender: senderId,
-      recipient: userId,
+      sender: userId,
+      receiver: receivedId,
       status: "pending",
     });
     if (existingRequest) {
@@ -24,9 +24,10 @@ export const sendConnectionRequest = async (req, res) => {
         message: "Request Already Send to the Connection",
       });
     }
+    console.log("hello from backend5");
     const newConnection = await Connection.create({
-      sender: senderId,
-      recipient: userId,
+      sender: userId,
+      receiver: receivedId,
     });
     return res.status(200).json({
       success: true,
@@ -49,14 +50,14 @@ export const acceptConnectionRequest = async (req, res) => {
 
     const request = await Connection.findById(requestId)
       .populate("sender", "-password")
-      .populate("recipient", "-password");
+      .populate("receiver", "-password");
     if (!request) {
       return res.status(404).json({
         success: false,
         message: "Connection Not Found",
       });
     }
-    if (userId.toString() === request.recipient.toString()) {
+    if (userId.toString() === request.receiver.toString()) {
       return res.status(400).json({
         success: false,
         message: "You Cannot Send Request to Yourself",
@@ -78,16 +79,16 @@ export const acceptConnectionRequest = async (req, res) => {
     });
 
     const newNotification = await Notification.create({
-      recipient: request.recipient._id,
+      receiver: request.receiver._id,
       relatedUser: userId,
       type: "ConnectionRequest",
     });
 
     // const senderEmail = request.sender._id ;
     // const senderName = request.sender.name ;
-    // const recipientName = request.recipient.name ;
-    // const profileUrl = process.env.CLIENT_URL + "/profile/" + request.recipient.username
-    // await acceptRequestMail(senderEmail,senderName,recipientName,profileUrl);
+    // const receiverName = request.receiver.name ;
+    // const profileUrl = process.env.CLIENT_URL + "/profile/" + request.receiver.username
+    // await acceptRequestMail(senderEmail,senderName,receiverName,profileUrl);
     // //send mail --> 2:20min
 
     return res.status(200).json({
@@ -103,24 +104,24 @@ export const acceptConnectionRequest = async (req, res) => {
   }
 };
 
-export const rejectConnectionRequest = async () => {
+export const rejectConnectionRequest = async (req,res) => {
   try {
     const requestId = req.params.id;
     const userId = req.user;
 
     const request = await Connection.findById(requestId)
       .populate("sender", "-password")
-      .populate("recipient", "-password");
+      .populate("receiver", "-password");
     if (!request) {
       return res.status(404).json({
         success: false,
         message: "Connection Not Found",
       });
     }
-    if (userId.toString() === request.recipient.toString()) {
+    if (userId.toString() === request.receiver.toString()) {
       return res.status(400).json({
         success: false,
-        message: "You Cannot Send Request to Yourself",
+        message: "You Cannot Reject Request to Yourself",
       });
     }
     if (request.status !== "pending") {
@@ -148,10 +149,10 @@ export const getAllConnections = async (req, res) => {
   try {
     const userId = req.user;
     const connections = await Connection.find({
-      $or: [{ sender: userId }, { recipient: userId }],
+      $or: [{ sender: userId }, { receiver: userId }],
       status: "accepted",
     })
-      .populate("recipient", "-password")
+      .populate("receiver", "-password")
       .populate("sender", "-password");
     if (!connections) {
       return res.status(404).json({
@@ -186,6 +187,7 @@ export const getUserConnections = async (req, res) => {
         message: "User Not Found",
       });
     }
+    console.log(user.connections);
     return res.status(200).json({
       success: true,
       message: "Connections Fetched",
@@ -229,19 +231,19 @@ export const getConnectionStatus = async (req, res) => {
     }
     const pendingReq = await Connection.findOne({
       $or: [
-        { sender: currentUserId, recipient: targetedUserId },
-        { sender: targetedUserId, recipient: currentUserId },
+        { sender: currentUserId, receiver: targetedUserId },
+        { sender: targetedUserId, receiver: currentUserId },
       ],
       status: "pending",
     });
-    if(pendingReq){
-      if(pendingReq.sender.toString() === currentUserId.toString()){
-        return res.json({ status : "pending"})
-      }else{
-        return res.json({status : "received", requestId : pendingReq._id})
+    if (pendingReq) {
+      if (pendingReq.sender.toString() === currentUserId.toString()) {
+        return res.json({ status: "pending" });
+      } else {
+        return res.json({ status: "received", requestId: pendingReq._id });
       }
     }
-    return res.json({status : "Not_Connected"})
+    return res.json({ status: "Not_Connected" });
   } catch (error) {
     console.log(error.message);
     return res.status(400).json({
@@ -250,3 +252,40 @@ export const getConnectionStatus = async (req, res) => {
     });
   }
 };
+
+export const showAllConnections = async (req, res) => {
+  try {
+    const userId = req.user;
+    const allConnections = await Connection.find({$or : [{ sender: userId },{receiver : userId}]})
+      .populate("sender", "-password")
+      .populate("receiver", "-password");
+    return res.status(200).json({
+      success: true,
+      allConnections,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(400).json({
+      success: false,
+      message: "Something Went Wrong while Getting Connections",
+    });
+  }
+};
+
+export const getPendingRequest = async(req,res)=>{
+  try {
+    const userId = req.user;
+    const pendingConnections = await Connection.find({receiver : userId , status : "pending"}).populate("sender","-password");
+    return res.status(200).json({
+      success : true ,
+      message : "Pending Requests Fetched Successfully",
+      pendingConnections
+    })
+  } catch (error) {
+    console.log(error.message);
+    return res.status(400).json({
+      success: false,
+      message: "Something Went Wrong while Fetching Pending Connections",
+    });
+  }
+}

@@ -23,7 +23,7 @@ export const sendMail = async(email,name,profileUrl)=>{
     }
 }
 
-export const commentCreationMail = async(email,recipientName,commenterName,postUrl,commentContent)=>{
+export const commentCreationMail = async(email,receiverName,commenterName,postUrl,commentContent)=>{
     try {
         const transporter = nodemailer.createTransport({
             host : process.env.MAIL_HOST,
@@ -37,7 +37,7 @@ export const commentCreationMail = async(email,recipientName,commenterName,postU
             to: `${email}`,
             title : `Welcome To Linkedin`,
             subject : "New Comment In Your Post",
-            html : createCommentNotificationEmailTemplate(recipientName,commenterName,postUrl,commentContent)
+            html : createCommentNotificationEmailTemplate(receiverName,commenterName,postUrl,commentContent)
         })
         return info ;
     } catch (error) {
@@ -45,7 +45,7 @@ export const commentCreationMail = async(email,recipientName,commenterName,postU
     }
 }
 
-export const acceptRequestMail = async(email,recipientName,commenterName,postUrl,commentContent)=>{
+export const acceptRequestMail = async(email,receiverName,commenterName,postUrl,commentContent)=>{
     try {
         const transporter = nodemailer.createTransport({
             host : process.env.MAIL_HOST,
@@ -59,7 +59,7 @@ export const acceptRequestMail = async(email,recipientName,commenterName,postUrl
             to: `${email}`,
             title : `Welcome To Linkedin`,
             subject : "New Comment In Your Post",
-            html : createCommentNotificationEmailTemplate(recipientName,commenterName,postUrl,commentContent)
+            html : createCommentNotificationEmailTemplate(receiverName,commenterName,postUrl,commentContent)
         })
         return info ;
     } catch (error) {
