@@ -18,7 +18,9 @@ export const connectionEndpoints = {
 }
 
 export const notificationEndpoints = {
-    GET_NOTIFICATIONS : BASE_URL + `/api/v1/notification/getAll`
+    GET_NOTIFICATIONS : BASE_URL + `/api/v1/notification/getAll`,
+    MARK_AS_READ : BASE_URL + `/api/v1/notification/:id`,
+    DELETE_NOTIFICATION : BASE_URL + `/api/v1/notification/delete/:id`
 }
 
 export const postEndpoints = {

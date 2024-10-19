@@ -27,8 +27,10 @@ export const markNotificationAsRead = async (req, res) => {
     const updatedNotification = await Notification.findOneAndUpdate(
       { _id: notificationId, receiver: userId },
       { read: true },
-      {new : true}
-    );
+      { new: true }
+    )
+      .populate("relatedUser", "name username profilePicture")
+      .populate("relatedPost", "content image");
     return res.status(200).json({
       success: true,
       message: "Marked As Read",
@@ -47,9 +49,10 @@ export const deleteNotification = async (req, res) => {
   try {
     const notificationId = req.params.id;
     const userId = req.user;
-    const deletedNotification = await Notification.findOneAndDelete(
-      { _id: notificationId, receiver: userId }
-    );
+    const deletedNotification = await Notification.findOneAndDelete({
+      _id: notificationId,
+      receiver: userId,
+    });
     return res.status(200).json({
       success: true,
       message: "Notification Deleted Successfully",

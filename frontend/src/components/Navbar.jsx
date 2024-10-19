@@ -75,6 +75,7 @@ export const Navbar = () => {
               </span>
             )}
           </Link>
+          <Link to={"/notifications"}>
           <div className="flex flex-col items-center relative">
             <Bell className="hover:text-blue-500 transition-all duration-300 cursor-pointer" />
             <span>Notification</span>
@@ -84,6 +85,7 @@ export const Navbar = () => {
               </span>
             )}
           </div>
+          </Link>
           <div className="flex flex-col items-center">
             <LogOut
               onClick={handleLogout}
