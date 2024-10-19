@@ -13,12 +13,14 @@ import { addComment, deletePost, likePost } from "../services/operations/Post";
 import { setAllPosts } from "../redux/slice/Post";
 import { PostActions } from "./PostActions";
 import { formatDistanceToNow } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 export const Post = ({ post }) => {
   const { user, token } = useSelector((state) => state.auth);
-  const [commentLoading,setCommentLoading] = useState(false)
+  const [commentLoading, setCommentLoading] = useState(false);
   const { allPosts } = useSelector((state) => state.post);
   const [comment, setComment] = useState("");
+  const navigate = useNavigate();
   const [showComment, setShowComment] = useState(false);
   const [isLiked, setIsLiked] = useState(
     post?.likes?.some((like) => like === user?._id)
@@ -90,11 +92,14 @@ export const Post = ({ post }) => {
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-4">
           <img
+            onClick={() => navigate(`/profile/${post?.author?.username}`)}
             src={post?.author?.profilePicture || "../../public/avatar.png"}
-            className="w-12 h-12 rounded-full object-cover border border-gray-200"
+            className="w-12 h-12 rounded-full object-cover border border-gray-200 cursor-pointer"
           />
           <div>
-            <span className="font-semibold text-lg text-gray-900">{post?.author?.name}</span>
+            <span className="font-semibold text-lg text-gray-900">
+              {post?.author?.name}
+            </span>
             <p className="text-xs text-gray-500">{post?.author?.headline}</p>
             <p className="text-xs text-gray-400">
               {formatDistanceToNow(new Date(post.createdAt), {

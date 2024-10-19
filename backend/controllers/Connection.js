@@ -71,16 +71,17 @@ export const acceptConnectionRequest = async (req, res) => {
     }
     request.status = "accepted";
     await request.save();
-    await User.findByIdAndUpdate(userId, {
+    const updatedUserWithConnection =  await User.findByIdAndUpdate(userId, {
       $push: { connections: request.sender._id },
-    });
+    },{new:true}).populate("connections","-password");
+
     await User.findByIdAndUpdate(request.sender._id, {
       $push: { connections: userId },
-    });
+    },{new : true});
 
     const newNotification = await Notification.create({
-      receiver: request.receiver._id,
-      relatedUser: userId,
+      receiver: request.sender._id,
+      relatedUser: request.receiver._id,
       type: "ConnectionRequest",
     });
 
@@ -94,6 +95,8 @@ export const acceptConnectionRequest = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Request Accepted Successfully",
+      request ,
+      updatedUserWithConnection
     });
   } catch (error) {
     console.log(error.message);
@@ -104,7 +107,7 @@ export const acceptConnectionRequest = async (req, res) => {
   }
 };
 
-export const rejectConnectionRequest = async (req,res) => {
+export const rejectConnectionRequest = async (req, res) => {
   try {
     const requestId = req.params.id;
     const userId = req.user;
@@ -135,6 +138,7 @@ export const rejectConnectionRequest = async (req,res) => {
     return res.status(200).json({
       success: true,
       message: "Request Rejected Successfully",
+      request
     });
   } catch (error) {
     console.log(error.message);
@@ -256,7 +260,9 @@ export const getConnectionStatus = async (req, res) => {
 export const showAllConnections = async (req, res) => {
   try {
     const userId = req.user;
-    const allConnections = await Connection.find({$or : [{ sender: userId },{receiver : userId}]})
+    const allConnections = await Connection.find({
+      $or: [{ sender: userId }, { receiver: userId }],
+    })
       .populate("sender", "-password")
       .populate("receiver", "-password");
     return res.status(200).json({
@@ -272,15 +278,18 @@ export const showAllConnections = async (req, res) => {
   }
 };
 
-export const getPendingRequest = async(req,res)=>{
+export const getPendingRequest = async (req, res) => {
   try {
     const userId = req.user;
-    const pendingConnections = await Connection.find({receiver : userId , status : "pending"}).populate("sender","-password");
+    const pendingConnections = await Connection.find({
+      receiver: userId,
+      status: "pending",
+    }).populate("sender", "-password");
     return res.status(200).json({
-      success : true ,
-      message : "Pending Requests Fetched Successfully",
-      pendingConnections
-    })
+      success: true,
+      message: "Pending Requests Fetched Successfully",
+      pendingConnections,
+    });
   } catch (error) {
     console.log(error.message);
     return res.status(400).json({
@@ -288,4 +297,4 @@ export const getPendingRequest = async(req,res)=>{
       message: "Something Went Wrong while Fetching Pending Connections",
     });
   }
-}
+};

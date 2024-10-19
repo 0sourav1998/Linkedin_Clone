@@ -57,7 +57,7 @@ export const login = async (req, res) => {
         message: "All Fields Are Required",
       });
     }
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }).populate("connections","-password");
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -106,7 +106,7 @@ export const logout = async (req, res) => {
 export const getCurrentUser = async (req, res) => {
   try {
     const id = req.user;
-    const user = await User.findById(id).select("-password");
+    const user = await User.findById(id).populate("connections","-password");
     if (!user) {
       return res.status(404).json({
         success: true,

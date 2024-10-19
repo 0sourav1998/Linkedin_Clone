@@ -7,7 +7,7 @@ import {
 } from "../services/operations/Connections";
 import { useDispatch, useSelector } from "react-redux";
 import { Check, Clock, Loader, UserCheck, X } from "lucide-react";
-import { setSuggestedUser } from "../redux/slice/auth";
+import { setSuggestedUser, setUser } from "../redux/slice/auth";
 
 export const UserSuggested = ({ suggested }) => {
   const { user, token } = useSelector((state) => state?.auth);
@@ -28,7 +28,9 @@ export const UserSuggested = ({ suggested }) => {
   const handleAcceptReq = async () => {
     try {
       setAcceptLoading(true);
-      await acceptRequest(connectionWithSuggested?._id, token);
+      const result = await acceptRequest(connectionWithSuggested?._id, token);
+      dispatch(setUser(result));
+      console.log("USER",user)
       removeSuggestedUser(suggested._id);
       setStatus("connected");
     } catch (error) {

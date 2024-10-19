@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { apiConnector } from "../apiConnector";
 import { setSuggestedUser, setToken, setUser } from "../../redux/slice/auth.js";
 
-const { SIGNUP, LOGIN , SUGGESTED_USER } = authEndpoints;
+const { SIGNUP, LOGIN , SUGGESTED_USER , GET_CURRENT_USER } = authEndpoints;
 
 export const signup = async (body, navigate) => {
   try {
@@ -21,7 +21,6 @@ export const login = (body, navigate) => {
   return async function (dispatch) {
     try {
       const response = await apiConnector("POST", LOGIN, body);
-      console.log("RES", response);
       if (response.data.success) {
         dispatch(setToken(response?.data?.token));
         dispatch(setUser(response?.data?.user));
@@ -64,4 +63,19 @@ export const suggestedUser =(token)=>{
       console.log(error)
     }
   }
+}
+
+export const currentUser = async(token)=>{
+  let result ;
+  try {
+    const response = await apiConnector("GET",GET_CURRENT_USER,null,{
+      Authorization : `Bearer ${token}`
+    });
+    if(response?.data?.success){
+      result = response?.data?.user;
+    }
+  } catch (error) {
+    console.log(error)
+  }
+  return result ;
 }

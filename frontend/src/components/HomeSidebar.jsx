@@ -14,13 +14,13 @@ export const HomeSidebar = ({ user }) => {
             }")`,
           }}
         />
-        <Link>
+        <Link to={`/profile/${user.username}`}>
           <img
             src={user?.profilePicture || "../../public/avatar.png"}
             className="h-20 w-20 rounded-full mx-auto absolute -mt-12 ml-36"
           />
         </Link>
-          <h2 className="text-xl font-semibold mt-8">{user?.name}</h2>
+        <h2 className="text-xl font-semibold mt-8">{user?.name}</h2>
         <p className="text-info">{user?.headline}</p>
         <p className="text-info text-xs">
           {user?.connections?.length} connections
@@ -40,7 +40,7 @@ export const HomeSidebar = ({ user }) => {
             </li>
             <li>
               <Link
-                to={"/network"}
+                to={"/networks"}
                 className="flex items-center py-2 px-4 hover:bg-primary hover:text-white gap-3"
               >
                 <UserPlus size={20} />

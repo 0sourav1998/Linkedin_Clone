@@ -4,7 +4,8 @@ console.log(BASE_URL);
 export const authEndpoints = {
     SIGNUP : BASE_URL + `/api/v1/user/signup`,
     LOGIN : BASE_URL + `/api/v1/user/login`,
-    SUGGESTED_USER : BASE_URL + `/api/v1/user/suggestedUsers`
+    SUGGESTED_USER : BASE_URL + `/api/v1/user/suggestedUsers`,
+    GET_CURRENT_USER : BASE_URL + `/api/v1/user/getCurrentUser`
 }
 
 export const connectionEndpoints = {

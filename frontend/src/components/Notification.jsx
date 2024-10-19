@@ -30,6 +30,7 @@ export const Notification = ({ singleNotification }) => {
     } else if (singleNotification.type === "ConnectionRequest") {
       return <UserCheck className="size-6 text-purple-500" />;
     }
+    return null; // Make sure to return null if no match
   };
 
   const NotificationTitle = () => {
@@ -50,11 +51,12 @@ export const Notification = ({ singleNotification }) => {
     } else if (singleNotification.type === "ConnectionRequest") {
       return (
         <p className="text-sm">
-          <strong>{singleNotification?.relatedUser?.name}</strong> Sends You
+          <strong>{singleNotification?.relatedUser?.name}</strong> Accepts Your
           Connection Request
         </p>
       );
     }
+    return null;
   };
 
   const NotificationForRelatedPost = () => {

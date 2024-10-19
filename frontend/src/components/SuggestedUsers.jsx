@@ -22,9 +22,9 @@ export const SuggestedUsers = () => {
   }, [token]);
   return (
     <div className="bg-white rounded-md shadow-md h-fit p-4">
-      <h1 className="text-xl mb-4">People You May Know</h1>
+      <h1 className="text-xl font-semibold mb-4">People You May Know</h1>
       {suggestedUser?.map((suggested) => (
-        <div key={suggested._id}>
+        <div key={suggested._id} className="mb-2">
           <UserSuggested suggested={suggested} />
         </div>
       ))}

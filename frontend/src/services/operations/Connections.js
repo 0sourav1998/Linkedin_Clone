@@ -77,6 +77,7 @@ export const getPendingReq = async (token) => {
 };
 
 export const acceptRequest = async (id, token) => {
+  let result ;
   try {
     const ACCEPT_URL = ACCEPT_REQUEST.replace(":id", id);
     const response = await apiConnector("PUT", ACCEPT_URL, null, {
@@ -84,13 +85,16 @@ export const acceptRequest = async (id, token) => {
     });
     if (response?.data?.success) {
       toast.success(response?.data?.message);
+      result = response?.data?.updatedUserWithConnection
     }
   } catch (error) {
     toast.error(error.response.data.message);
   }
+  return result ;
 };
 
 export const rejectRequest = async (id, token) => {
+  let result ;
   try {
     const REJECT_URL = REJECT_REQUEST.replace(":id", id);
     const response = await apiConnector("PUT", REJECT_URL, null, {
@@ -98,8 +102,10 @@ export const rejectRequest = async (id, token) => {
     });
     if (response?.data?.success) {
       toast.success(response?.data?.message);
+      result = response?.data?.request;
     }
   } catch (error) {
     toast.error(error.response.data.message);
   }
+  return result ;
 };
