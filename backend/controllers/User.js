@@ -57,7 +57,10 @@ export const login = async (req, res) => {
         message: "All Fields Are Required",
       });
     }
-    const user = await User.findOne({ username }).populate("connections","-password");
+    const user = await User.findOne({ username }).populate(
+      "connections",
+      "-password"
+    );
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -86,7 +89,7 @@ export const login = async (req, res) => {
       success: true,
       message: "User Logged In Successfully",
       token,
-      user
+      user,
     });
   } catch (error) {
     return res.status(400).json({
@@ -106,7 +109,7 @@ export const logout = async (req, res) => {
 export const getCurrentUser = async (req, res) => {
   try {
     const id = req.user;
-    const user = await User.findById(id).populate("connections","-password");
+    const user = await User.findById(id).populate("connections", "-password");
     if (!user) {
       return res.status(404).json({
         success: true,
@@ -183,11 +186,13 @@ export const getProfile = async (req, res) => {
 export const updateProfile = async (req, res) => {
   try {
     const { ...newProfileData } = req.body;
-    console.log(newProfileData)
-    const { profilePicture, bannerImage } = req.files;
+    console.log(newProfileData);
+
+    const user = await User.findById(req.user);
 
     let profilePicResponse;
-    if (profilePicture) {
+    if (req.files && req?.files?.profilePicture) {
+      const { profilePicture } = req?.files;
       const response = await sendFileToCloudinary(
         profilePicture,
         process.env.CLOUD_FOLDER
@@ -198,7 +203,8 @@ export const updateProfile = async (req, res) => {
       }
     }
     let bannerPicResponse;
-    if (bannerImage) {
+    if (req.files && req?.files?.bannerImage) {
+      const { bannerImage } = req?.files;
       const response = await sendFileToCloudinary(
         bannerImage,
         process.env.CLOUD_FOLDER
@@ -211,10 +217,11 @@ export const updateProfile = async (req, res) => {
 
     const newData = {
       ...newProfileData,
-      profilePicture: profilePicResponse,
-      bannerImage: bannerPicResponse,
+      profilePicture: profilePicResponse
+        ? profilePicResponse
+        : user?.profilePicture,
+      bannerImage: bannerPicResponse ? bannerPicResponse : user?.bannerImage,
     };
-    const user = await User.findById(req.user);
     if (!user) {
       return res.status(404).json({
         success: false,

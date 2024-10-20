@@ -3,7 +3,7 @@ import { getNotifications } from "../services/operations/Notification";
 import { setNotification } from "../redux/slice/notification";
 import { useDispatch, useSelector } from "react-redux";
 import logo from "../../public/small-logo.png";
-import { Home, Users, Bell, LogOut } from "lucide-react";
+import { Home, Users, Bell, LogOut, User } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../services/operations/Auth";
 import { getPendingReq } from "../services/operations/Connections";
@@ -89,6 +89,12 @@ export const Navbar = () => {
                     {unreadNotification}
                   </span>
                 )}
+              </div>
+            </Link>
+            <Link to={`profile/${user.username}`}>
+              <div className="flex flex-col items-center relative">
+                <User className="hover:text-blue-500 transition-all duration-300 cursor-pointer" />
+                <span>Me</span>
               </div>
             </Link>
             <div className="flex flex-col items-center">

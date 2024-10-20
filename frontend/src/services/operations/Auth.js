@@ -3,7 +3,8 @@ import toast from "react-hot-toast";
 import { apiConnector } from "../apiConnector";
 import { setSuggestedUser, setToken, setUser } from "../../redux/slice/auth.js";
 
-const { SIGNUP, LOGIN , SUGGESTED_USER , GET_CURRENT_USER } = authEndpoints;
+const { SIGNUP, LOGIN, SUGGESTED_USER, GET_CURRENT_USER, UPDATE_PROFILE } =
+  authEndpoints;
 
 export const signup = async (body, navigate) => {
   try {
@@ -48,34 +49,50 @@ export const logout = (navigate) => {
   };
 };
 
-
-export const suggestedUser =(token)=>{
-  return async function (dispatch){
+export const suggestedUser = (token) => {
+  return async function (dispatch) {
     try {
-      const response = await apiConnector("GET",SUGGESTED_USER,null,{
-        Authorization : `Bearer ${token}`
+      const response = await apiConnector("GET", SUGGESTED_USER, null, {
+        Authorization: `Bearer ${token}`,
       });
-      console.log(response)
-      if(response?.data?.success){
+      console.log(response);
+      if (response?.data?.success) {
         dispatch(setSuggestedUser(response?.data?.otherUser));
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-}
+  };
+};
 
-export const currentUser = async(token)=>{
-  let result ;
+export const currentUser = async (username, token) => {
+  let result;
   try {
-    const response = await apiConnector("GET",GET_CURRENT_USER,null,{
-      Authorization : `Bearer ${token}`
+    const USER_URL = GET_CURRENT_USER.replace(":username", username);
+    const response = await apiConnector("GET", USER_URL, null, {
+      Authorization: `Bearer ${token}`,
     });
-    if(response?.data?.success){
+    if (response?.data?.success) {
       result = response?.data?.user;
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-  return result ;
-}
+  return result;
+};
+
+export const updateProfile = async (body, token) => {
+  let result;
+  try {
+    const response = await apiConnector("PUT", UPDATE_PROFILE, body, {
+      Authorization: `Bearer ${token}`,
+    });
+    if (response?.data?.success) {
+      toast.success(response?.data?.message);
+      result = response?.data?.user;
+    }
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+  }
+  return result;
+};

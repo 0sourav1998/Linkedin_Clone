@@ -5,7 +5,8 @@ export const authEndpoints = {
     SIGNUP : BASE_URL + `/api/v1/user/signup`,
     LOGIN : BASE_URL + `/api/v1/user/login`,
     SUGGESTED_USER : BASE_URL + `/api/v1/user/suggestedUsers`,
-    GET_CURRENT_USER : BASE_URL + `/api/v1/user/getCurrentUser`
+    GET_CURRENT_USER : BASE_URL + `/api/v1/user/:username`,
+    UPDATE_PROFILE : BASE_URL + `/api/v1/user/update`
 }
 
 export const connectionEndpoints = {

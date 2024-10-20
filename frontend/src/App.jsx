@@ -9,6 +9,7 @@ import { Connections } from "./components/Connections";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { SinglePost } from "./components/SinglePost";
 import { PostPage } from "./pages/PostPage";
+import { ProfilePage } from "./pages/ProfilePage";
 
 function App() {
   return (
@@ -47,6 +48,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <PostPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile/:username"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
               </ProtectedRoute>
             }
           />
