@@ -103,6 +103,7 @@ export const deletePost = async (req, res) => {
 export const getPostById = async (req, res) => {
   try {
     const postId = req.params.id;
+    console.log(postId)
     const post = await Post.findById(postId)
       .populate("author", "-password")
       .populate("comments.user", "-password");
@@ -204,7 +205,7 @@ export const likePost = async (req, res) => {
         postId,
         { $push: { likes: userId } },
         { new: true }
-      );
+      ).populate("author","-password");
       if (post.author.toString() !== userId.toString()) {
         await Notification.create({
           receiver: post.author,

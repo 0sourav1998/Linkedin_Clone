@@ -14,6 +14,7 @@ import {
 } from "../services/operations/Notification";
 import { useDispatch, useSelector } from "react-redux";
 import { setNotification } from "../redux/slice/notification";
+import { Link } from "react-router-dom";
 
 export const Notification = ({ singleNotification }) => {
   //   console.log("notification", notification);
@@ -163,7 +164,11 @@ export const Notification = ({ singleNotification }) => {
               })}
             </p>
           </div>
-          <div>{NotificationForRelatedPost()}</div>
+          <div>
+            <Link to={`/post/${singleNotification?.relatedPost?._id}`}>
+              {NotificationForRelatedPost()}
+            </Link>
+          </div>
         </div>
       </div>
       <div>{notificationActions()}</div>

@@ -29,5 +29,6 @@ export const postEndpoints = {
     CREATE_POST : BASE_URL + `/api/v1/post/create`,
     DELETE_POST : BASE_URL + `/api/v1/post/delete`,
     LIKE_POST : BASE_URL + `/api/v1/post/:id/like`,
-    ADD_COMMENT : BASE_URL + `/api/v1/post//:id/comment`
+    ADD_COMMENT : BASE_URL + `/api/v1/post/:id/comment`,
+    FETCH_SINGLE_POST : BASE_URL + `/api/v1/post/post/:id`
 } 

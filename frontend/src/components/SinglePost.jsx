@@ -1,32 +1,58 @@
+import { formatDistanceToNow } from "date-fns";
 import {
   Loader,
   MessageCircle,
   Send,
   Share,
-  ThumbsDown,
   ThumbsUp,
   Trash2,
 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  addComment,
+  deletePost,
+  fetchSinglePost,
+  likePost,
+} from "../services/operations/Post";
 import { useDispatch, useSelector } from "react-redux";
-import { addComment, deletePost, likePost } from "../services/operations/Post";
-import { setAllPosts } from "../redux/slice/Post";
+import { setAllPosts, setPost } from "../redux/slice/Post";
 import { PostActions } from "./PostActions";
-import { formatDistanceToNow } from "date-fns";
-import { Link, useNavigate } from "react-router-dom";
 
-export const Post = ({ post }) => {
-  const { user, token } = useSelector((state) => state.auth);
-  const [commentLoading, setCommentLoading] = useState(false);
-  const { allPosts } = useSelector((state) => state.post);
-  const [comment, setComment] = useState("");
+export const SinglePost = () => {
+  const { id } = useParams();
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { user, token } = useSelector((state) => state.auth);
+  const { allPosts } = useSelector((state) => state.post);
+  const { post } = useSelector((state) => state.post);
+
+  const [commentLoading, setCommentLoading] = useState(false);
+  const [comment, setComment] = useState("");
   const [showComment, setShowComment] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [isLiked, setIsLiked] = useState(
     post?.likes?.some((like) => like === user?._id)
   );
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
+
+  const fetchPost = async () => {
+    try {
+      const result = await fetchSinglePost(id, token);
+      console.log(result);
+      dispatch(setPost(result));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      fetchPost();
+    }
+  }, [id, token]);
 
   const handleLike = async (id) => {
     try {
@@ -34,10 +60,7 @@ export const Post = ({ post }) => {
       if (result) {
         const userLiked = result.likes.some((like) => like === user._id);
         setIsLiked(userLiked);
-        const updatedPosts = allPosts.map((p) =>
-          p._id === result._id ? result : p
-        );
-        dispatch(setAllPosts(updatedPosts));
+        dispatch(setPost(result));
       }
     } catch (error) {
       console.log(error);
@@ -53,6 +76,7 @@ export const Post = ({ post }) => {
           (post) => post._id !== result._id
         );
         dispatch(setAllPosts(filteredPostAfterDeletion));
+        navigate("/")
       }
     } catch (error) {
       console.log(error);
@@ -66,10 +90,8 @@ export const Post = ({ post }) => {
       setCommentLoading(true);
       const result = await addComment(id, { content: comment }, token);
       if (result) {
-        const updatedPosts = allPosts?.map((post) =>
-          post._id === result._id ? result : post
-        );
-        dispatch(setAllPosts(updatedPosts));
+        
+        dispatch(setPost(result));
         setComment("");
       }
     } catch (error) {
@@ -101,11 +123,11 @@ export const Post = ({ post }) => {
               {post?.author?.name}
             </span>
             <p className="text-xs text-gray-500">{post?.author?.headline}</p>
-            <p className="text-xs text-gray-400">
+            {/* <p className="text-xs text-gray-400">
               {formatDistanceToNow(new Date(post?.createdAt), {
                 addSuffix: true,
               })}
-            </p>
+            </p> */}
           </div>
         </div>
         {post?.author?._id === user?._id && (
@@ -124,12 +146,10 @@ export const Post = ({ post }) => {
       <div className="mb-4">
         <h1 className="text-gray-800 mb-2">{post?.content}</h1>
         {post?.image && (
-          <Link to={`/post/${post._id}`}>
-            <img
-              src={post?.image}
-              className="w-full h-64 object-cover rounded-lg border border-gray-200"
-            />
-          </Link>
+          <img
+            src={post?.image}
+            className="w-full h-64 object-cover rounded-lg border border-gray-200"
+          />
         )}
       </div>
       <div className="flex justify-between items-center border-t border-gray-200 pt-3">
@@ -161,13 +181,11 @@ export const Post = ({ post }) => {
             className="flex gap-3 items-start p-3 mt-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm"
           >
             <div className="flex-shrink-0">
-              <Link>
-                <img
-                  className="w-10 h-10 rounded-full object-cover border border-gray-300"
-                  src={comment?.user?.profilePicture || "/avatar.png"}
-                  alt={comment?.user?.username}
-                />
-              </Link>
+              <img
+                className="w-10 h-10 rounded-full object-cover border border-gray-300"
+                src={comment?.user?.profilePicture || "/avatar.png"}
+                alt={comment?.user?.username}
+              />
             </div>
             <div className="flex flex-col">
               <span className="font-semibold text-sm text-gray-800">
