@@ -49,8 +49,8 @@ const userSchema = new mongoose.Schema({
     education : [{
         school : String,
         fieldOfStudy : String ,
-        from : Number ,
-        to : Number 
+        from : Date ,
+        to : Date 
     }],
     connections : [{
         type : mongoose.Schema.Types.ObjectId ,

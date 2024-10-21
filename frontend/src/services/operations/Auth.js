@@ -3,8 +3,16 @@ import toast from "react-hot-toast";
 import { apiConnector } from "../apiConnector";
 import { setSuggestedUser, setToken, setUser } from "../../redux/slice/auth.js";
 
-const { SIGNUP, LOGIN, SUGGESTED_USER, GET_CURRENT_USER, UPDATE_PROFILE } =
-  authEndpoints;
+const {
+  SIGNUP,
+  LOGIN,
+  SUGGESTED_USER,
+  GET_CURRENT_USER,
+  UPDATE_PROFILE,
+  DELETE_EXP,
+  DELETE_EDU,
+  DELETE_SKILL
+} = authEndpoints;
 
 export const signup = async (body, navigate) => {
   try {
@@ -96,3 +104,54 @@ export const updateProfile = async (body, token) => {
   }
   return result;
 };
+
+export const deleteExperience = async (id, token) => {
+  let result;
+  try {
+    const DELETE_EXP_URL = DELETE_EXP.replace(":id", id);
+    const response = await apiConnector("DELETE", DELETE_EXP_URL, null, {
+      Authorization: `Bearer ${token}`,
+    });
+    if (response) {
+      toast.success(response?.data?.message);
+      result = response?.data?.user;
+    }
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+  }
+  return result;
+};
+
+export const deleteEducation = async (id, token) => {
+  let result;
+  try {
+    const DELETE_EDU_URL = DELETE_EDU.replace(":id", id);
+    const response = await apiConnector("DELETE", DELETE_EDU_URL, null, {
+      Authorization: `Bearer ${token}`,
+    });
+    if (response) {
+      toast.success(response?.data?.message);
+      result = response?.data?.user;
+    }
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+  }
+  return result;
+};
+
+export const deleteSkill = async(skill,token)=>{
+  let result ;
+  try {
+      const DELETE_SKILL_URL = DELETE_SKILL.replace(":skill", skill);
+      const response = await apiConnector("DELETE", DELETE_SKILL_URL, null, {
+        Authorization: `Bearer ${token}`,
+      });
+      if (response) {
+        toast.success(response?.data?.message);
+        result = response?.data?.user;
+      }
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+  }
+  return result ;
+}

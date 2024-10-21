@@ -7,6 +7,7 @@ import { ProfileHeader } from '../components/ProfileHeader';
 import { AboutSection } from '../components/AboutSection';
 import { Education } from '../components/Education';
 import { Skills } from '../components/Skills';
+import { Experience } from '../components/Experience';
 
 export const ProfilePage = () => {
 
@@ -31,9 +32,10 @@ export const ProfilePage = () => {
         }
     },[token,username])
   return (
-    <div className='max-w-4xl mx-auto shadow-md px-8 py-4 rounded-md'>
+    <div className='max-w-4xl mx-auto px-8 py-4 rounded-md flex flex-col gap-4'>
         <ProfileHeader/>
         <AboutSection/>
+        <Experience/>
         <Education />
         <Skills/>
     </div>

@@ -185,10 +185,16 @@ export const getProfile = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const { ...newProfileData } = req.body;
-    console.log(newProfileData);
+    const { experience, education , skills , ...newProfileData } = req.body;
+    console.log(skills);
 
     const user = await User.findById(req.user);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User Not Found",
+      });
+    }
 
     let profilePicResponse;
     if (req.files && req?.files?.profilePicture) {
@@ -198,10 +204,10 @@ export const updateProfile = async (req, res) => {
         process.env.CLOUD_FOLDER
       );
       if (response) {
-        console.log(response);
         profilePicResponse = response.secure_url;
       }
     }
+
     let bannerPicResponse;
     if (req.files && req?.files?.bannerImage) {
       const { bannerImage } = req?.files;
@@ -210,9 +216,36 @@ export const updateProfile = async (req, res) => {
         process.env.CLOUD_FOLDER
       );
       if (response) {
-        console.log(response);
         bannerPicResponse = response.secure_url;
       }
+    }
+
+    let updatedExperience = user.experience || [];
+    let updateEducation = user.education || [] ;
+    let updateSkill = user.skills || []
+
+    if (experience) {
+      let newExperience = Array.isArray(experience)
+        ? experience
+        : [experience];
+
+      updatedExperience.push(...newExperience);
+    }
+
+    if (education) {
+      let newEducation = Array.isArray(education)
+        ? education
+        : [education];
+
+      updateEducation.push(...newEducation);
+    }
+
+    if (skills) {
+      let newSkill = Array.isArray(skills)
+        ? skills
+        : [skills];
+
+      updateSkill.push(...newSkill);
     }
 
     const newData = {
@@ -220,16 +253,17 @@ export const updateProfile = async (req, res) => {
       profilePicture: profilePicResponse
         ? profilePicResponse
         : user?.profilePicture,
-      bannerImage: bannerPicResponse ? bannerPicResponse : user?.bannerImage,
+      bannerImage: bannerPicResponse
+        ? bannerPicResponse
+        : user?.bannerImage,
+      experience: updatedExperience,
+      education : updateEducation ,
+      skills : updateSkill
     };
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User Not Found",
-      });
-    }
+
     Object.assign(user, newData);
     await user.save();
+
     return res.status(200).json({
       success: true,
       message: "Profile Updated",
@@ -243,3 +277,87 @@ export const updateProfile = async (req, res) => {
     });
   }
 };
+
+export const deleteExp = async(req,res)=>{
+  try {
+    const {id} = req.params;
+    const userId = req.user;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    const updatedProfile = user.experience.filter((exp)=>exp._id.toString() !== id);
+    user.experience = updatedProfile;
+    await user.save();
+    return res.status(200).json({
+      success : true ,
+      message : "Experience Deleted",
+      user
+    })
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      success: false,
+      message: "Error While Deleting Experience",
+    });
+  }
+}
+
+export const deleteEducation = async(req,res)=>{
+  try {
+    const {id} = req.params;
+    const userId = req.user;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    const updatedProfile = user.education.filter((edu)=>edu._id.toString() !== id);
+    user.education = updatedProfile;
+    await user.save();
+    return res.status(200).json({
+      success : true ,
+      message : "Education Deleted",
+      user
+    })
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      success: false,
+      message: "Error While Deleting Education",
+    });
+  }
+}
+
+export const deleteSkill = async(req,res)=>{
+  try {
+    const {skill} = req.params;
+    const userId = req.user;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    const updatedProfile = user.skills.filter((s)=>s !== skill);
+    user.skills = updatedProfile;
+    await user.save();
+    return res.status(200).json({
+      success : true ,
+      message : "Skill Deleted",
+      user
+    })
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      success: false,
+      message: "Error While Deleting Skill",
+    });
+  }
+}

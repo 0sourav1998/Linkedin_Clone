@@ -72,8 +72,7 @@ export const ProfileHeader = () => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto mt-2">
-      {/* Banner Section */}
+    <div className="w-full max-w-4xl bg-white shadow-md p-8 mx-auto mt-2">
       <div className="relative w-[50vw] h-48 md:h-60">
         <img
           src={bannerPreview || profile?.bannerImage || "/banner.png"}
@@ -94,7 +93,6 @@ export const ProfileHeader = () => {
             />
           </div>
         )}
-        {/* Profile Picture */}
         <img
           src={imagePreview || profile?.profilePicture || "/avatar.png"}
           alt="Profile"
@@ -116,9 +114,7 @@ export const ProfileHeader = () => {
         )}
       </div>
 
-      {/* Profile Details */}
       <div className="flex flex-col items-center gap-3 mt-20 text-center">
-        {/* Name */}
         <div>
           {isEdit ? (
             <input
@@ -133,7 +129,6 @@ export const ProfileHeader = () => {
           )}
         </div>
 
-        {/* Email */}
         <div>
           {isEdit ? (
             <input
@@ -148,7 +143,6 @@ export const ProfileHeader = () => {
           )}
         </div>
 
-        {/* Headline */}
         <div>
           {isEdit ? (
             <input
@@ -163,7 +157,6 @@ export const ProfileHeader = () => {
           )}
         </div>
 
-        {/* Edit Buttons */}
         {isOwner ? (
           isEdit ? (
             <div className="flex gap-4">
@@ -198,9 +191,13 @@ export const ProfileHeader = () => {
               Edit Profile
             </button>
           )
+        ) : user?.connections.find((connection)=>connection._id === profile._id) ? (
+          <button className="bg-blue-600 text-white p-2 rounded-md">
+            Connected
+          </button>
         ) : (
-          <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors duration-300">
-            Connect
+          <button className="bg-red-600 text-white p-2 rounded-md">
+            Not_Connected
           </button>
         )}
       </div>

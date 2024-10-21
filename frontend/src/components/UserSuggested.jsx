@@ -8,6 +8,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { Check, Clock, Loader, UserCheck, X } from "lucide-react";
 import { setSuggestedUser, setUser } from "../redux/slice/auth";
+import { Link } from "react-router-dom";
 
 export const UserSuggested = ({ suggested }) => {
   const { user, token } = useSelector((state) => state?.auth);
@@ -15,7 +16,7 @@ export const UserSuggested = ({ suggested }) => {
   const [status, setStatus] = useState("");
   const [acceptLoading, setAcceptLoading] = useState(false);
   const { suggestedUser } = useSelector((state) => state.auth);
-  const [rejectLoading,setRejectLoading] = useState(false)
+  const [rejectLoading, setRejectLoading] = useState(false);
   const dispatch = useDispatch();
 
   const removeSuggestedUser = (userId) => {
@@ -30,7 +31,7 @@ export const UserSuggested = ({ suggested }) => {
       setAcceptLoading(true);
       const result = await acceptRequest(connectionWithSuggested?._id, token);
       dispatch(setUser(result));
-      console.log("USER",user)
+      console.log("USER", user);
       removeSuggestedUser(suggested._id);
       setStatus("connected");
     } catch (error) {
@@ -42,14 +43,14 @@ export const UserSuggested = ({ suggested }) => {
 
   const handleDeleteReq = async () => {
     try {
-      setRejectLoading(true)
+      setRejectLoading(true);
       await rejectRequest(connectionWithSuggested?._id, token);
       removeSuggestedUser(suggested._id);
       setStatus("rejected");
     } catch (error) {
       console.log(error.message);
-    }finally{
-      setRejectLoading(false)
+    } finally {
+      setRejectLoading(false);
     }
   };
 
@@ -139,10 +140,12 @@ export const UserSuggested = ({ suggested }) => {
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-2">
-        <img
-          src={suggested?.profilePicture || "../../public/avatar.png"}
-          className="size-12 rounded-full"
-        />
+        <Link to={`/profile/${suggested?.username}`}>
+          <img
+            src={suggested?.profilePicture || "../../public/avatar.png"}
+            className="size-12 rounded-full"
+          />
+        </Link>
         <div className="flex flex-col">
           <p>{suggested?.name}</p>
           <p className="text-xs text-info">{suggested?.headline}</p>
