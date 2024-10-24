@@ -10,7 +10,7 @@ export const Experience = () => {
   const [currentlyWorking, setCurrentlyWorking] = useState(false);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const isOwner = profile._id === user._id;
+  const isOwner = profile?._id === user?._id;
   const [experience, setExperience] = useState({
     title: "",
     company: "",

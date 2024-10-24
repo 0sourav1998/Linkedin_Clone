@@ -8,7 +8,7 @@ import bannerImage from "../assets/banner.png"
 
 export const ProfileHeader = () => {
   const { profile, user } = useSelector((state) => state.auth);
-  const isOwner = profile._id === user._id;
+  const isOwner = profile?._id === user?._id;
 
   const [name, setName] = useState();
   const [email, setEmail] = useState();

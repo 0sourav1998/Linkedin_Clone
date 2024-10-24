@@ -9,7 +9,7 @@ export const Education = () => {
   const [addEducation, setAddEducation] = useState(false);
   const [currentlyStudying, setCurrentlyStudying] = useState(false);
   const dispatch = useDispatch();
-  const isOwner = profile._id === user._id;
+  const isOwner = profile?._id === user?._id;
   const [education, setEducation] = useState({
     title: "",
     company: "",

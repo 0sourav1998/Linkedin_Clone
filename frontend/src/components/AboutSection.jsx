@@ -9,7 +9,7 @@ export const AboutSection = () => {
   const [edit, setIsEdit] = useState(false);
   const [about, setAbout] = useState("");
   const [loading, setLoading] = useState(false);
-  const isOwner = profile._id === user._id;
+  const isOwner = profile?._id === user?._id;
   const dispatch = useDispatch();
 
   const handleSubmit = async () => {
