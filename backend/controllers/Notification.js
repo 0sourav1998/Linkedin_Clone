@@ -12,7 +12,7 @@ export const getAllNotifications = async (req, res) => {
       notification,
     });
   } catch (error) {
-    console.log(error.message);
+    
     return res.status(400).json({
       success: false,
       message: "Something Went Wrong While Fetching Notifications",
@@ -37,7 +37,7 @@ export const markNotificationAsRead = async (req, res) => {
       updatedNotification,
     });
   } catch (error) {
-    console.log(error.message);
+    
     return res.status(400).json({
       success: false,
       message: "Something Went Wrong While Updating Notification",
@@ -59,7 +59,7 @@ export const deleteNotification = async (req, res) => {
       deletedNotification,
     });
   } catch (error) {
-    console.log(error.message);
+    
     return res.status(400).json({
       success: false,
       message: "Something Went Wrong While Deleting Notification",

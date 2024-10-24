@@ -10,7 +10,7 @@ export const HomeSidebar = ({ user }) => {
           className="h-16 rounded-t-lg bg-cover bg-center relative"
           style={{
             backgroundImage: `url("${
-              user?.bannerImage || "../../public/banner.png"
+              user?.bannerImage || "../assets/banner.png"
             }")`,
           }}
         />

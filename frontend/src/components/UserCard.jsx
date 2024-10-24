@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
 
 function UserCard({ user, isConnection }) {
-    console.log(user)
 	return (
 		<div className='bg-white rounded-lg shadow sm:p-4 p-2 flex flex-col items-center transition-all hover:shadow-md'>
 			<Link to={`/profile/${user.username}`} className='flex flex-col items-center'>
 				<img
-					src={user.profilePicture || "../../public/avatar.png"}
+					src={user.profilePicture || "../assets/avatar.png"}
 					alt={user.name}
 					className='sm:w-24 sm:h-24 w-16 h-16 rounded-full object-cover sm:mb-4 mb-2'
 				/>

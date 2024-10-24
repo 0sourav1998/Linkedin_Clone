@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getNotifications } from "../services/operations/Notification";
 import { setNotification } from "../redux/slice/notification";
 import { useDispatch, useSelector } from "react-redux";
-import logo from "../../public/small-logo.png";
+import logo from "../assets/small-logo.png";
 import { Home, Users, Bell, LogOut, User, Search } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getAllUsersForSearch, logout } from "../services/operations/Auth";
@@ -29,7 +29,6 @@ export const Navbar = () => {
           user?.name?.toLowerCase().startsWith(search.toLowerCase())
         )
       : [];
-  console.log(filterSearchResult);
 
   const handleLogout = () => {
     try {
@@ -42,7 +41,6 @@ export const Navbar = () => {
   const fetchPendingConnection = async () => {
     try {
       const response = await getPendingReq(token);
-      console.log("res", response);
       dispatch(setPendingReq(response));
     } catch (error) {
       console.log(error.message);
@@ -169,7 +167,7 @@ export const Navbar = () => {
             >
               <Link to={`/profile/${user?.username}`}>
                 <img
-                  src={user.profilePicture || "../../public/avatar.png"}
+                  src={user.profilePicture || "../assets/avatar.png"}
                   className="w-10 h-10 rounded-full"
                 />
               </Link>

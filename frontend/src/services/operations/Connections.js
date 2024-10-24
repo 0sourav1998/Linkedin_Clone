@@ -19,7 +19,6 @@ export const getConnectionsStatus = async (id, token) => {
       Authorization: `Bearer ${token}`,
     });
     if (response) {
-      console.log("RES", response?.data);
       result = response?.data;
     }
   } catch (error) {
@@ -32,7 +31,6 @@ export const sendConnections = async (id, token) => {
   let result;
   try {
     const URL = SEND_CONNECTIONS.replace(":id", id);
-    console.log(URL);
     const response = await apiConnector("POST", URL, null, {
       Authorization: `Bearer ${token}`,
     });

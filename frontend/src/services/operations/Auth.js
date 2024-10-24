@@ -64,7 +64,6 @@ export const suggestedUser = (token) => {
       const response = await apiConnector("GET", SUGGESTED_USER, null, {
         Authorization: `Bearer ${token}`,
       });
-      console.log(response);
       if (response?.data?.success) {
         dispatch(setSuggestedUser(response?.data?.otherUser));
       }

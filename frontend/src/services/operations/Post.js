@@ -10,7 +10,6 @@ export const fetchAllPosts = async(token)=>{
         const response = await apiConnector("GET",ALL_POSTS,null,{
             Authorization  : `Bearer ${token}`
         });
-        console.log("RESPONSE",response)
         if(response?.data?.success){
             result = response?.data?.posts
         }
@@ -53,11 +52,9 @@ export const deletePost = async(id,token)=>{
 }
 
 export const likePost = async(id,token)=>{
-    console.log("TOKEN",token)
     let result ;
     try {
         const LIKE_URL = LIKE_POST.replace(":id",id);
-        console.log(LIKE_URL)
         const response = await apiConnector("POST",LIKE_URL,null,{
             Authorization : `Bearer ${token}`
           });

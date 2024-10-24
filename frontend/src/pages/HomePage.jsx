@@ -36,7 +36,6 @@ export const HomePage = () => {
   const fetchAllUser = async () => {
     try {
       const result = await getAllUsersForSearch(token);
-      console.log("RESULT", result);
       dispatch(setAllUser(result));
     } catch (error) {
       console.log(error);

@@ -31,7 +31,6 @@ export const UserSuggested = ({ suggested }) => {
       setAcceptLoading(true);
       const result = await acceptRequest(connectionWithSuggested?._id, token);
       dispatch(setUser(result));
-      console.log("USER", user);
       removeSuggestedUser(suggested._id);
       setMyStatus("connected");
     } catch (error) {
@@ -142,7 +141,7 @@ export const UserSuggested = ({ suggested }) => {
       <div className="flex items-center gap-2">
         <Link to={`/profile/${suggested?.username}`}>
           <img
-            src={suggested?.profilePicture || "../../public/avatar.png"}
+            src={suggested?.profilePicture || "../assets/avatar.png"}
             className="size-10 rounded-full"
           />
         </Link>

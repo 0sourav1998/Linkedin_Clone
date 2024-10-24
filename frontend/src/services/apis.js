@@ -1,5 +1,4 @@
 const BASE_URL = import.meta.env.VITE_BASE_URL;
-console.log(BASE_URL);
 
 export const authEndpoints = {
   SIGNUP: BASE_URL + `/api/v1/user/signup`,

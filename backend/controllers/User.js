@@ -186,8 +186,6 @@ export const getProfile = async (req, res) => {
 export const updateProfile = async (req, res) => {
   try {
     const { experience, education , skills , ...newProfileData } = req.body;
-    console.log(skills);
-
     const user = await User.findById(req.user);
     if (!user) {
       return res.status(404).json({
@@ -270,7 +268,6 @@ export const updateProfile = async (req, res) => {
       user,
     });
   } catch (error) {
-    console.log(error);
     return res.status(400).json({
       success: false,
       message: "Error While Updating Profile",
@@ -298,7 +295,6 @@ export const deleteExp = async(req,res)=>{
       user
     })
   } catch (error) {
-    console.log(error);
     return res.status(400).json({
       success: false,
       message: "Error While Deleting Experience",
@@ -326,7 +322,6 @@ export const deleteEducation = async(req,res)=>{
       user
     })
   } catch (error) {
-    console.log(error);
     return res.status(400).json({
       success: false,
       message: "Error While Deleting Education",
@@ -354,7 +349,6 @@ export const deleteSkill = async(req,res)=>{
       user
     })
   } catch (error) {
-    console.log(error);
     return res.status(400).json({
       success: false,
       message: "Error While Deleting Skill",

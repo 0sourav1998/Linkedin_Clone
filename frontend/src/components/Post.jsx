@@ -79,13 +79,6 @@ export const Post = ({ post }) => {
     }
   };
 
-  const handleShare = async () => {
-    try {
-      console.log("Heyyyy");
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
 
   return (
     <div className="shadow-lg sm:p-6 p-3 bg-white rounded-lg transition duration-300 hover:shadow-xl">
@@ -93,7 +86,7 @@ export const Post = ({ post }) => {
         <div className="flex items-center gap-4">
           <img
             onClick={() => navigate(`/profile/${post?.author?.username}`)}
-            src={post?.author?.profilePicture || "../../public/avatar.png"}
+            src={post?.author?.profilePicture || "../assets/avatar.png"}
             className="w-12 h-12 rounded-full object-cover border border-gray-200 cursor-pointer"
           />
           <div>
@@ -163,7 +156,7 @@ export const Post = ({ post }) => {
               <Link>
                 <img
                   className="w-10 h-10 rounded-full object-cover border border-gray-300"
-                  src={comment?.user?.profilePicture || "/avatar.png"}
+                  src={comment?.user?.profilePicture || "../assets/avatar.png"}
                   alt={comment?.user?.username}
                 />
               </Link>

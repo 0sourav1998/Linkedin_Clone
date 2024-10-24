@@ -18,7 +18,7 @@ export const getFeeds = async (req, res) => {
       posts,
     });
   } catch (error) {
-    console.log(error.message);
+    
 
     return res.status(400).json({
       success: false,
@@ -57,7 +57,6 @@ export const createPost = async (req, res) => {
       newPost,
     });
   } catch (error) {
-    console.log(error);
     return res.status(400).json({
       success: false,
       message: "Something Went Wrong While Fetching Feeds",
@@ -92,7 +91,6 @@ export const deletePost = async (req, res) => {
       deletedPost,
     });
   } catch (error) {
-    console.log(error);
     return res.status(400).json({
       success: false,
       message: "Something Went Wrong While Deleting Posts",
@@ -103,7 +101,6 @@ export const deletePost = async (req, res) => {
 export const getPostById = async (req, res) => {
   try {
     const postId = req.params.id;
-    console.log(postId)
     const post = await Post.findById(postId)
       .populate("author", "-password")
       .populate("comments.user", "-password");
@@ -119,7 +116,7 @@ export const getPostById = async (req, res) => {
       post,
     });
   } catch (error) {
-    console.log(error.message);
+    
     return res.status(400).json({
       success: false,
       message: "Something Went Wrong While Fetching Post",
@@ -132,7 +129,6 @@ export const createComment = async (req, res) => {
     const postId = req.params.id;
     const userId = req.user;
     const { content } = req.body;
-    console.log("first");
     if (!postId || !content) {
       return res.status(400).json({
         success: false,
@@ -166,7 +162,7 @@ export const createComment = async (req, res) => {
         content
       );
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
     return res.status(201).json({
       success: true,
@@ -174,7 +170,7 @@ export const createComment = async (req, res) => {
       post,
     });
   } catch (error) {
-    console.log(error.message);
+    
     return res.status(400).json({
       success: false,
       message: "Something Went Wrong While Creating Comment",
@@ -221,7 +217,7 @@ export const likePost = async (req, res) => {
       updatedPost,
     });
   } catch (error) {
-    console.log(error.message);
+    
     return res.status(400).json({
       success: false,
       message: "Something Went Wrong While Liking the Post",

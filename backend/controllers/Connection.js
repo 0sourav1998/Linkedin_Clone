@@ -37,7 +37,7 @@ export const sendConnectionRequest = async (req, res) => {
       populatedConnection,
     });
   } catch (error) {
-    console.log(error.message);
+    
     return res.status(400).json({
       success: false,
       message: "Something Went Wrong while Sending Request",
@@ -109,7 +109,7 @@ export const acceptConnectionRequest = async (req, res) => {
       updatedUserWithConnection,
     });
   } catch (error) {
-    console.log(error.message);
+    
     return res.status(400).json({
       success: false,
       message: "Something Went Wrong while Accepting Request",
@@ -151,7 +151,7 @@ export const rejectConnectionRequest = async (req, res) => {
       request,
     });
   } catch (error) {
-    console.log(error.message);
+    
     return res.status(400).json({
       success: false,
       message: "Something Went Wrong while Rejecting Request",
@@ -180,7 +180,7 @@ export const getAllConnections = async (req, res) => {
       connections,
     });
   } catch (error) {
-    console.log(error.message);
+    
     return res.status(400).json({
       success: false,
       message: "Something Went Wrong while Fetching Connection Requests",
@@ -201,14 +201,13 @@ export const getUserConnections = async (req, res) => {
         message: "User Not Found",
       });
     }
-    console.log(user.connections);
     return res.status(200).json({
       success: true,
       message: "Connections Fetched",
       connections: user.connections,
     });
   } catch (error) {
-    console.log(error.message);
+    
     return res.status(400).json({
       success: false,
       message: "Something Went Wrong while Fetching Connections",
@@ -227,7 +226,7 @@ export const removeConnection = async (req, res) => {
       message: "Connection Removed Successfully",
     });
   } catch (error) {
-    console.log(error.message);
+    
     return res.status(400).json({
       success: false,
       message: "Something Went Wrong while Removing Connection",
@@ -255,7 +254,7 @@ export const getConnectionStatus = async (req, res) => {
       connections
     })
   } catch (error) {
-    console.log(error.message);
+    
     return res.status(400).json({
       success: false,
       message: "Something Went Wrong while Getting Connection Status",
@@ -276,7 +275,7 @@ export const showAllConnections = async (req, res) => {
       allConnections,
     });
   } catch (error) {
-    console.log(error.message);
+    
     return res.status(400).json({
       success: false,
       message: "Something Went Wrong while Getting Connections",
@@ -297,7 +296,7 @@ export const getPendingRequest = async (req, res) => {
       pendingConnections,
     });
   } catch (error) {
-    console.log(error.message);
+    
     return res.status(400).json({
       success: false,
       message: "Something Went Wrong while Fetching Pending Connections",

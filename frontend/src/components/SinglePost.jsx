@@ -47,7 +47,6 @@ export const SinglePost = () => {
     try {
       setFetchPostLoading(true)
       const result = await fetchSinglePost(id, token);
-      console.log(result);
       dispatch(setPost(result));
     } catch (error) {
       console.log(error);
@@ -127,7 +126,7 @@ export const SinglePost = () => {
         <div className="flex items-center gap-4">
           <img
             onClick={() => navigate(`/profile/${post?.author?.username}`)}
-            src={post?.author?.profilePicture || "../../public/avatar.png"}
+            src={post?.author?.profilePicture || "../assets/avatar.png"}
             className="w-12 h-12 rounded-full object-cover border border-gray-200 cursor-pointer"
           />
           <div>
@@ -137,11 +136,6 @@ export const SinglePost = () => {
             <p className="sm:text-xs text-[10px] text-gray-500">
               {post?.author?.headline}
             </p>
-            {/* <p className="sm:text-xs text-[10px] text-gray-400">
-              {formatDistanceToNow(new Date(post?.createdAt), {
-                addSuffix: true,
-              })}
-            </p> */}
           </div>
         </div>
         {post?.author?._id === user?._id && (
@@ -197,7 +191,7 @@ export const SinglePost = () => {
             <div className="flex-shrink-0">
               <img
                 className="w-10 h-10 rounded-full object-cover border border-gray-300"
-                src={comment?.user?.profilePicture || "/avatar.png"}
+                src={comment?.user?.profilePicture || "../assets/avatar.png"}
                 alt={comment?.user?.username}
               />
             </div>

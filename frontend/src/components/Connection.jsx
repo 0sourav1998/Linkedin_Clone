@@ -59,7 +59,7 @@ export const Connection = ({ request }) => {
         <div className="flex items-center md:gap-2 gap-1">
           <div>
             <img
-              src={request?.sender?.profilePicture || "../../public/avatar.png"}
+              src={request?.sender?.profilePicture || "../assets/avatar.png"}
               alt=""
               className="size-12 rounded-full"
             />
