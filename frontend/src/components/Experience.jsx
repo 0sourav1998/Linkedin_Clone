@@ -99,7 +99,7 @@ export const Experience = () => {
               {isOwner && (
                 <X
                   className="cursor-pointer text-red-500 hover:text-red-600 transition-colors duration-200"
-                  onClick={() => handleDeleteExp(exp._id)}
+                  onClick={() => handleDeleteExp(exp?._id)}
                 />
               )}
             </div>

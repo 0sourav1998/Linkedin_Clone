@@ -90,7 +90,7 @@ export const Education = () => {
               {isOwner && (
                 <X
                   className="cursor-pointer text-red-500 hover:text-red-700"
-                  onClick={() => handleDeleteEdu(edu._id)}
+                  onClick={() => handleDeleteEdu(edu?._id)}
                 />
               )}
             </div>

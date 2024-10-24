@@ -189,7 +189,7 @@ export const ProfileHeader = () => {
               Edit Profile
             </button>
           )
-        ) : user?.connections.find((connection) => connection._id === profile._id) ? (
+        ) : user?.connections.find((connection) => connection?._id === profile?._id) ? (
           <button className="bg-blue-600 px-6 py-2 rounded-lg text-white hover:bg-blue-700 transition">
             Connected
           </button>
