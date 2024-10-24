@@ -15,6 +15,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setNotification } from "../redux/slice/notification";
 import { Link } from "react-router-dom";
+import avatar from "../assets/avatar.png"
 
 export const Notification = ({ singleNotification }) => {
   const { token } = useSelector((state) => state.auth);
@@ -147,7 +148,7 @@ export const Notification = ({ singleNotification }) => {
           <img
             src={
               singleNotification?.relatedUser?.profilePicture ||
-              "../assets/avatar.png"
+              avatar
             }
             className="rounded-full"
             alt=""

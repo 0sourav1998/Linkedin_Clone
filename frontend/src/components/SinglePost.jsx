@@ -21,6 +21,7 @@ import {PulseLoader} from "react-spinners";
 import { setAllPosts, setPost } from "../redux/slice/Post";
 import { PostActions } from "./PostActions";
 import toast from "react-hot-toast";
+import avatar from "../assets/avatar.png"
 
 export const SinglePost = () => {
   const { id } = useParams();
@@ -126,7 +127,7 @@ export const SinglePost = () => {
         <div className="flex items-center gap-4">
           <img
             onClick={() => navigate(`/profile/${post?.author?.username}`)}
-            src={post?.author?.profilePicture || "../assets/avatar.png"}
+            src={post?.author?.profilePicture || avatar}
             className="w-12 h-12 rounded-full object-cover border border-gray-200 cursor-pointer"
           />
           <div>
@@ -191,7 +192,7 @@ export const SinglePost = () => {
             <div className="flex-shrink-0">
               <img
                 className="w-10 h-10 rounded-full object-cover border border-gray-300"
-                src={comment?.user?.profilePicture || "../assets/avatar.png"}
+                src={comment?.user?.profilePicture || avatar}
                 alt={comment?.user?.username}
               />
             </div>

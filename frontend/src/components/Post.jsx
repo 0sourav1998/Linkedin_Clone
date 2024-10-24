@@ -14,6 +14,7 @@ import { setAllPosts } from "../redux/slice/Post";
 import { PostActions } from "./PostActions";
 import { formatDistanceToNow } from "date-fns";
 import { Link, useNavigate } from "react-router-dom";
+import avatar from "../assets/avatar.png"
 
 export const Post = ({ post }) => {
   const { user, token } = useSelector((state) => state.auth);
@@ -86,7 +87,7 @@ export const Post = ({ post }) => {
         <div className="flex items-center gap-4">
           <img
             onClick={() => navigate(`/profile/${post?.author?.username}`)}
-            src={post?.author?.profilePicture || "../assets/avatar.png"}
+            src={post?.author?.profilePicture || avatar}
             className="w-12 h-12 rounded-full object-cover border border-gray-200 cursor-pointer"
           />
           <div>
@@ -155,7 +156,7 @@ export const Post = ({ post }) => {
               <Link>
                 <img
                   className="w-10 h-10 rounded-full object-cover border border-gray-300"
-                  src={comment?.user?.profilePicture || "../assets/avatar.png"}
+                  src={comment?.user?.profilePicture || avatar}
                   alt={comment?.user?.username}
                 />
               </Link>

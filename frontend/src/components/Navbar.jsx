@@ -8,7 +8,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getAllUsersForSearch, logout } from "../services/operations/Auth";
 import { getPendingReq } from "../services/operations/Connections";
 import { setPendingReq } from "../redux/slice/connections";
-import { setAllUser, setSearchResult } from "../redux/slice/auth";
+import avatar from "../assets/avatar.png"
 
 export const Navbar = () => {
   const { token, user, suggestedUser, allUser } = useSelector(
@@ -167,7 +167,7 @@ export const Navbar = () => {
             >
               <Link to={`/profile/${user?.username}`}>
                 <img
-                  src={user.profilePicture || "../assets/avatar.png"}
+                  src={user.profilePicture || avatar}
                   className="w-10 h-10 rounded-full"
                 />
               </Link>

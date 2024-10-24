@@ -6,6 +6,7 @@ import {
   rejectRequest,
 } from "../services/operations/Connections";
 import { setPendingReq } from "../redux/slice/connections";
+import avatar from "../assets/avatar.png"
 
 export const Connection = ({ request }) => {
   const [acceptLoading, setAcceptLoading] = useState(false);
@@ -59,7 +60,7 @@ export const Connection = ({ request }) => {
         <div className="flex items-center md:gap-2 gap-1">
           <div>
             <img
-              src={request?.sender?.profilePicture || "../assets/avatar.png"}
+              src={request?.sender?.profilePicture || avatar}
               alt=""
               className="size-12 rounded-full"
             />

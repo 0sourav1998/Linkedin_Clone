@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import { createPost } from "../services/operations/Post";
 import { useDispatch, useSelector } from "react-redux";
 import { setAllPosts } from "../redux/slice/Post";
+import avatar from "../assets/avatar.png"
 
 export const PostCreation = ({ user }) => {
   const [content, setContent] = useState("");
@@ -53,7 +54,7 @@ export const PostCreation = ({ user }) => {
     <div className="bg-secondary rounded-lg shadow mb-4 sm:p-4 p-2">
       <div className="flex space-x-3">
         <img
-          src={user?.profilePicture || "../assets/avatar.png"}
+          src={user?.profilePicture || avatar}
           className="size-12 rounded-full"
         />
         <textarea
