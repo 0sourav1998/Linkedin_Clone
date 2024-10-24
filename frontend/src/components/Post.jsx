@@ -143,7 +143,6 @@ export const Post = ({ post }) => {
         <PostActions
           icon={<Share size={18} />}
           text={`Share`}
-          onClick={handleShare}
         />
       </div>
       {showComment &&
