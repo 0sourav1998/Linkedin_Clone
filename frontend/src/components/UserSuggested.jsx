@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Check, Clock, Loader, UserCheck, X } from "lucide-react";
 import { setSuggestedUser, setUser } from "../redux/slice/auth";
 import { Link } from "react-router-dom";
+import avatar from "../assets/avatar.png"
 
 export const UserSuggested = ({ suggested }) => {
   const { user, token } = useSelector((state) => state?.auth);
@@ -141,7 +142,7 @@ export const UserSuggested = ({ suggested }) => {
       <div className="flex items-center gap-2">
         <Link to={`/profile/${suggested?.username}`}>
           <img
-            src={suggested?.profilePicture || "../assets/avatar.png"}
+            src={suggested?.profilePicture || avatar}
             className="size-10 rounded-full"
           />
         </Link>

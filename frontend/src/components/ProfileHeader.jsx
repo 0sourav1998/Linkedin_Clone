@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateProfile } from "../services/operations/Auth";
 import { setProfile } from "../redux/slice/auth";
 import { Camera, Loader } from "lucide-react";
+import avatar from "../assets/avatar.png"
+import bannerImage from "../assets/banner.png"
 
 export const ProfileHeader = () => {
   const { profile, user } = useSelector((state) => state.auth);
@@ -75,7 +77,7 @@ export const ProfileHeader = () => {
     <div className="w-full sm:max-w-4xl bg-white shadow-xl sm:p-10 p-6 mx-auto mt-3 rounded-lg">
       <div className="relative sm:w-[50vw] w-full h-32 sm:h-60">
         <img
-          src={bannerPreview || profile?.bannerImage || "../assets/banner.png"}
+          src={bannerPreview || profile?.bannerImage || bannerImage}
           alt="Banner"
           className="w-full h-full object-cover rounded-lg shadow-md"
         />
@@ -95,7 +97,7 @@ export const ProfileHeader = () => {
         )}
         <div className="">
           <img
-            src={imagePreview || profile?.profilePicture || "../assets/avatar.png"}
+            src={imagePreview || profile?.profilePicture || avatar}
             alt="Profile"
             className="w-24 h-24 md:w-32 md:h-32 rounded-full absolute top-[70%] left-1/2 transform -translate-x-1/2 border-4 border-white shadow-lg object-cover"
           />
