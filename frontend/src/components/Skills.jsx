@@ -9,7 +9,7 @@ export const Skills = () => {
   const [skill, setSkill] = useState("");
   const [isEdit, setIsEdit] = useState(false);
   const dispatch = useDispatch();
-  const isOwner = profile._id === user._id;
+  const isOwner = profile?._id === user?._id;
 
   const handleSubmit = async () => {
     try {
