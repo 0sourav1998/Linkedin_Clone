@@ -38,8 +38,8 @@ export const Skills = () => {
     <div className="bg-white shadow-lg rounded-md p-6 sm:p-8 flex flex-col gap-4">
       <h1 className="font-semibold text-lg sm:text-xl mb-4">Skills</h1>
       <div className="flex flex-wrap gap-3">
-        {profile.skills.length !== 0 ? (
-          profile.skills.map((skill, index) => (
+        {profile?.skills?.length !== 0 ? (
+          profile?.skills?.map((skill, index) => (
             <div
               key={index}
               className="flex justify-between items-center bg-blue-700 px-4 py-1 rounded-md shadow-md"

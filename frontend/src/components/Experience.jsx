@@ -61,12 +61,12 @@ export const Experience = () => {
   return (
     <div className="flex flex-col gap-6 bg-white shadow-lg rounded-lg p-6 sm:p-8">
       <h1 className="font-bold text-xl sm:text-2xl mb-4">
-        My Experiences ({profile.experience.length})
+        My Experiences ({profile?.experience?.length})
       </h1>
 
-      {profile.experience.length !== 0 ? (
+      {profile?.experience?.length !== 0 ? (
         <div className="mt-4">
-          {profile.experience.map((exp, index) => (
+          {profile?.experience?.map((exp, index) => (
             <div
               key={index}
               className="shadow-md p-6 bg-gray-50 rounded-lg flex justify-between items-start hover:shadow-lg transition-shadow duration-300"
@@ -115,7 +115,7 @@ export const Experience = () => {
             <input
               placeholder="Add a title..."
               required
-              value={experience.title}
+              value={experience?.title}
               onChange={(e) =>
                 setExperience({ ...experience, title: e.target.value })
               }
@@ -124,7 +124,7 @@ export const Experience = () => {
             <input
               placeholder="Add a Company..."
               required
-              value={experience.company}
+              value={experience?.company}
               onChange={(e) =>
                 setExperience({ ...experience, company: e.target.value })
               }
@@ -135,7 +135,7 @@ export const Experience = () => {
               <input
                 type="date"
                 required
-                value={experience.from}
+                value={experience?.from}
                 onChange={(e) =>
                   setExperience({ ...experience, from: e.target.value })
                 }
@@ -157,7 +157,7 @@ export const Experience = () => {
                 <input
                   type="date"
                   required
-                  value={experience.to}
+                  value={experience?.to}
                   onChange={(e) =>
                     setExperience({ ...experience, to: e.target.value })
                   }
@@ -168,7 +168,7 @@ export const Experience = () => {
             <textarea
               placeholder="Description..."
               required
-              value={experience.description}
+              value={experience?.description}
               onChange={(e) =>
                 setExperience({ ...experience, description: e.target.value })
               }

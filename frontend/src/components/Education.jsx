@@ -56,9 +56,9 @@ export const Education = () => {
   return (
     <div className="flex flex-col gap-4 bg-white shadow-lg rounded-md p-6 sm:p-8">
       <h1 className="font-semibold sm:text-xl text-lg mb-3">Education</h1>
-      {profile.education.length !== 0 ? (
+      {profile?.education?.length !== 0 ? (
         <div className="space-y-4">
-          {profile.education.map((edu, index) => (
+          {profile?.education?.map((edu, index) => (
             <div
               key={index}
               className="flex justify-between items-start bg-gray-100 p-4 rounded-lg shadow-md"
